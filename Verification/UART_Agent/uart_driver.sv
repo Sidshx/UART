@@ -1,6 +1,6 @@
-`include "uart_trans.sv"
+//`include "uart_agent_pkg.svh"
 
-class uart_driv;
+class uart_driver;
 
    parameter clk_freq = 50000000; // Clock frequency in Hz
    parameter baud_rate = 19200;   // Baud rate in bps
