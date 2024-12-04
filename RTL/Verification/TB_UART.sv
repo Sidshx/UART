@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
-`include "Design/uart_pkg.sv"
-`include "Verification/TB_pkg.sv"
+`include "../Design/uart_pkg.sv"
+`include "TB_pkg.sv"
 
 import TB_PKG::*;
 import uart_pkg::*;
