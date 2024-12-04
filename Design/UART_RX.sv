@@ -1,7 +1,7 @@
 `include "uart_pkg.sv"
 import uart_pkg::*;
 
-module uart_rx #(
+module UART_RX #(
     parameter int CLK_FREQ = 50000000, 
     parameter int BAUD_RATE = 19200
 )(

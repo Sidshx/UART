@@ -1,8 +1,7 @@
 `include "uart_pkg.sv"
 import uart_pkg::*;
 
-module UART_TX #(
-    parameter int CLK_FREQ = 50000000, 
+module UART_TX #(parameter int CLK_FREQ = 50000000, 
     parameter int BAUD_RATE = 19200
 )(
     input logic clk,
