@@ -1,4 +1,4 @@
-<<<<<<< HEAD:Verification/uart_gen.sv
+
 // ===========================================================================
 // CLASS NAME : UART GENERATOR 
 // DESCRIPTION : 
@@ -7,10 +7,6 @@
 
 
 `include "uart_trans.sv"
-=======
-//`include "uart_trans.sv"
->>>>>>> 16addfc0ae71fa68f95eef24a17f582785b78548:Verification/UART_Agent/uart_gen.sv
-
 class uart_gen;
 
    rand uart_trans trans;
