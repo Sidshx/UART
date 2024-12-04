@@ -1,46 +1,63 @@
-/***********************************************************************
- * This file includes the UART Transmitter (TX) and Receiver (RX)
- * CLOCKS_PER_BIT is the number of clock cycles required to send 1 byte
- * CLOCKS_PER_BIT = (Frequency of clk)/(Frequency of UART)
- * Example: 25 MHz Clock, 115200 baud rate (bits per second) of UART
- * CLOCKS_PER_BIT = (25000000)/(115200) = 217
-***********************************************************************/
+/*
+ *  Copyright (C) 2018  Siddharth J <www.siddharth.pro>
+ *
+ *  Permission to use, copy, modify, and/or distribute this software for any
+ *  purpose with or without fee is hereby granted, provided that the above
+ *  copyright notice and this permission notice appear in all copies.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ *  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ *  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ *  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ *  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ *  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ *  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
 
-module UART (input logic clk,
-             input logic i_TX_Data_Valid,
-             input logic [7:0] i_TX_Byte,
-             output logic o_RX_Data_Valid,
-             output logic [7:0] o_RX_Byte,
-             output logic o_TX_Done);
+module uart(clk,rst,rx,tx_data_in,start,rx_data_out,tx,tx_active,done_tx);
 
-  wire w_TX_Active, w_UART_Line;
-  wire w_TX_Serial, w_RX_DV;
-  wire [7:0] w_RX_Byte;
+parameter clk_freq = 50000000; //MHz
+parameter baud_rate = 19200; //bits per second
+parameter clock_divide = (clk_freq/baud_rate);
 
-  parameter c_CLOCK_PERIOD_NS = 40;
-  parameter c_CLOCKS_PER_BIT  = 217;
-  parameter c_BIT_PERIOD      = 8600;
+  input clk,rst; 
+  input rx;
+  input [7:0] tx_data_in;
+  input start;
+  output tx; 
+  output [7:0] rx_data_out;
+  output tx_active;
+  output done_tx;
+	
+	
+uart_rx 
+       #(.clk_freq(clk_freq),
+	 .baud_rate(baud_rate)
+	)
+      receiver
+             (
+              .clk(clk),
+	      .rst(rst),
+	      .rx(rx),
+	      .rx_data_out(rx_data_out)
+             );
 
-  UART_RX #(.CLOCKS_PER_BIT(c_CLOCKS_PER_BIT)) UART_Receiver
-    (.clk(clk),
-     .Input_RX_Serial(w_UART_Line),
-     .Output_RX_Data_Valid(o_RX_Data_Valid),
-     .Output_RX_Byte(o_RX_Byte)
-     );
 
-  UART_TX #(.CLOCKS_PER_BIT(c_CLOCKS_PER_BIT)) UART_Transmitter
-    (.clk(clk),
-     .Input_TX_Data_Valid_bit(i_TX_Data_Valid),
-     .Input_TX_Byte(i_TX_Byte),
-     .Output_TX_Active(w_TX_Active),
-     .Output_TX_Serial(w_TX_Serial),
-     .Output_TX_Done(o_TX_Done)
-     );
+uart_tx 
+       #(.clk_freq(clk_freq),
+	 .baud_rate(baud_rate)
+        )
+      transmitter			 
+               (               
+                .clk(clk),
+		.rst(rst),
+		.start(start),
+		.tx_data_in(tx_data_in),
+		.tx(tx),
+		.tx_active(tx_active),
+		.done_tx(done_tx)
+               );
 
-  assign w_UART_Line = w_TX_Active ? w_TX_Serial : 1'b1;
-  //assign o_RX_Data_Valid = w_RX_DV;
-  //assign o_RX_Byte = w_RX_Byte;
-
-endmodule: UART 
-
+endmodule
 
