@@ -1,0 +1,113 @@
+# Reading pref.tcl
+# //  Questa Sim-64
+# //  Version 2024.2 linux_x86_64 May 20 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading project uart agent
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh was successful.
+# 5 compiles, 0 failed with no errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 3 errors.
+# 5 compiles, 1 failed with 3 errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 3 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 1 failed with 3 errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 2 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 1 failed with 2 errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 2 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 1 failed with 2 errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 2 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 1 failed with 2 errors.
+# Compile of uart_driver.sv was successful.
+# Compile of uart_gen.sv was successful.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 2 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 1 failed with 2 errors.
+# Compile of uart_driver.sv failed with 1 errors.
+# Compile of uart_gen.sv failed with 2 errors.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh was successful.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 2 failed with 3 errors.
+# Compile of uart_driver.sv failed with 1 errors.
+# Compile of uart_gen.sv failed with 2 errors.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh failed with 1 errors.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 3 failed with 4 errors.
+# Compile of uart_driver.sv failed with 1 errors.
+# Compile of uart_gen.sv failed with 2 errors.
+# Compile of uart_monitor.sv was successful.
+# Compile of uart_trans.sv was successful.
+# Compile of uart_agent_pkg.svh was successful.
+# Compile of uart_agent.sv was successful.
+# 6 compiles, 2 failed with 3 errors.
+# reading modelsim.ini
+# Loading project uart_design
+# reading modelsim.ini
+# reading /pkgs/mentor/questa/2024.2/questasim/linux_x86_64/../modelsim.ini
+# Loading project uart_design
+# Compile of UART_TX.sv was successful.
+# Compile of UART_RX.sv was successful.
+# Compile of UART.sv was successful.
+# 3 compiles, 0 failed with no errors.
+# Compile of UART_TX.sv was successful.
+# Compile of UART_RX.sv failed with 2 errors.
+# Compile of UART.sv was successful.
+# Compile of uart_pkg.sv was successful.
+# 4 compiles, 1 failed with 2 errors.
+# Compile of UART_TX.sv was successful.
+# Compile of UART_RX.sv failed with 3 errors.
+# Compile of UART.sv was successful.
+# Compile of uart_pkg.sv failed with 2 errors.
+# 4 compiles, 2 failed with 5 errors.
+# Compile of UART_TX.sv was successful.
+# Compile of UART_RX.sv failed with 3 errors.
+# Compile of UART.sv was successful.
+# Compile of uart_pkg.sv failed with 2 errors.
+# 4 compiles, 2 failed with 5 errors.
+# Compile of UART_TX.sv was successful.
+# Compile of UART_RX.sv failed with 3 errors.
+# Compile of UART.sv was successful.
+# Compile of uart_pkg.sv was successful.
+# 4 compiles, 1 failed with 3 errors.

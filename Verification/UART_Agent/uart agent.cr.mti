@@ -1,0 +1,30 @@
+/u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_gen.sv {0 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_gen.sv
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+** Error: /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_gen.sv(5): (vlog-2294) The 'var' keyword is missing.
+** Error: (vlog-13069) /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_gen.sv(5): near "trans": syntax error, unexpected IDENTIFIER, expecting ';' or ','.
+
+} {3.0 5.0} {}} /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_agent.sv {1 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_agent.sv
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+
+} {} {}} /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_driver.sv {0 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_driver.sv
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+** Error: /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_driver.sv(8): Invalid type 'uart_trans'. Please check the type of the variable 'trans'.
+
+} {3.0 4.0} {}} /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_agent_pkg.svh {1 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_agent_pkg.svh
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+-- Compiling package uart_agent_pkg
+
+Top level modules:
+	--none--
+
+} {} {}} /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_trans.sv {1 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_trans.sv
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+-- Compiling package uart_trans_sv_unit
+
+Top level modules:
+	--none--
+
+} {} {}} /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_monitor.sv {1 {vlog -work work -vopt -sv -stats=none /u/patilsid/ECE571-F24/UART/Verification/UART_Agent/uart_monitor.sv
+QuestaSim-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+
+} {} {}}
