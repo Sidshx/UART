@@ -7,7 +7,6 @@
 
 
 `include "uart_trans.sv"
-=======
 class uart_gen;
 
    rand uart_trans trans;
