@@ -1,125 +1,115 @@
-/***********************************************************************
- * This file contains the UART Transmitter (TX)
- * The RX can transmit 8 bits of serial data
- * The TX has one start bit, one stop bit and no parity bit
-***********************************************************************/
-`include "pkg_uart.sv"
-import pkg_uart::*;
- 
-module UART_TX (
-   input logic      clk,
-   input logic      Input_Tx_Data_Valid_bit,
-   input logic [7:0] Input_TX_Byte, 
-   output logic     Output_TX_Active,
-   output logic  Output_TX_Serial,
-   output logic     Output_TX_Done
-   );
+`include "uart_pkg.sv"
+import uart_pkg::*;
 
-  state_e state;
-  uart_config_st uart_config;
-  
-  logic [7:0] reg_TX_Data     = 0;
-  logic       reg_TX_Done     = 0;
-  logic       reg_TX_Active   = 0;
-    
-  always @(posedge clk)
-  begin
-    case (state)
-          IDLE :
-        begin
-          Output_TX_Serial   <= 1'b1;         
-          reg_TX_Done     <= 1'b0;
-          uart_config.reg_Clock_Count <= 0;
-          uart_config.reg_Bit_Index   <= 0;
-          
-          if (Input_Tx_Data_Valid_bit == 1'b1)
-          begin
-            reg_TX_Active <= 1'b1;
-            reg_TX_Data   <= Input_TX_Byte;
-            state   <=     TX_START_BIT;
-          end
-          else
-            state <= IDLE;
-        end // case: IDLE
-      
-      
+module UART_TX #(
+    parameter int CLK_FREQ = 50000000, 
+    parameter int BAUD_RATE = 19200
+)(
+    input logic clk,
+    input logic rst,
+    input logic start,
+    input logic [DATA_WIDTH-1:0] tx_data_in,
+    output logic tx,
+    output logic tx_active,
+    output logic done_tx
+);
 
-      TX_START_BIT :
-        begin
-          Output_TX_Serial <= 1'b0;
+    localparam CLK_DIVIDE = (CLK_FREQ / BAUD_RATE);
 
-          if (uart_config.reg_Clock_Count < CLOCKS_PER_BIT-1)
-          begin
-            uart_config.reg_Clock_Count <= uart_config.reg_Clock_Count + 1;
-            state         <= TX_START_BIT;
-          end
-          else
-          begin
-            uart_config.reg_Clock_Count <= 0;
-            state         <= TX_DATA_BITS;
-          end
-        end // case: TX_START_BIT
-      
-      
-     
-      TX_DATA_BITS :
-        begin
-          Output_TX_Serial <= reg_TX_Data[uart_config.reg_Bit_Index];
-          
-          if (uart_config.reg_Clock_Count < CLOCKS_PER_BIT-1)
-          begin
-            uart_config.reg_Clock_Count <= uart_config.reg_Clock_Count + 1;
-            state         <= TX_DATA_BITS;
-          end
-          else
-          begin
-            uart_config.reg_Clock_Count <= 0;
+    state_e tx_STATE, tx_NEXT;
+    config_st tx_configt, tx_nxt_config;
 
-            if (uart_config.reg_Bit_Index < 7)
-            begin
-              uart_config.reg_Bit_Index <= uart_config.reg_Bit_Index + 1;
-              state   <=     TX_DATA_BITS;
-            end
-            else
-            begin
-              uart_config.reg_Bit_Index <= 0;
-              state   <=     TX_STOP_BIT;
-            end
-          end 
-        end // case: TX_DATA_BITS
-      
-      TX_STOP_BIT :
-        begin
-          Output_TX_Serial <= 1'b1;
-          
-          if (uart_config.reg_Clock_Count < CLOCKS_PER_BIT-1)
-          begin
-            uart_config.reg_Clock_Count <= uart_config.reg_Clock_Count + 1;
-            state         <= TX_STOP_BIT;
-          end
-          else
-          begin
-            reg_TX_Done     <= 1'b1;
-            uart_config.reg_Clock_Count <= 0;
-            state         <= CLEANUP;
-            reg_TX_Active   <= 1'b0;
-          end 
-        end // case: TX_STOP_BIT
-      
-      CLEANUP :
-        begin
-          reg_TX_Done <= 1'b1;
-          state <= IDLE;
+    logic tx_out_reg, tx_out_next;
+
+    assign tx_active = (tx_STATE == DATA);
+    assign tx = tx_out_reg;
+
+    // Sequential logic for state and configuration updates
+    always_ff @(posedge clk) begin
+        if (rst) begin
+            tx_STATE <= IDLE;
+            tx_configt.clk_div <= 0;
+            tx_out_reg <= 0;
+            tx_configt.data <= 0;
+            tx_configt.index_bit <= 0;
+        end else begin
+            tx_STATE <= tx_NEXT;
+            tx_configt.clk_div <= tx_nxt_config.clk_div;
+            tx_out_reg <= tx_out_next;
+            tx_configt.data <= tx_nxt_config.data;
+            tx_configt.index_bit <= tx_nxt_config.index_bit;
         end
-      default :
-      begin
-        state <= IDLE;
-      end
-      
-    endcase
-  end
-  
-  assign Output_TX_Active = reg_TX_Active;
-  assign Output_TX_Done   = reg_TX_Done;
-  
+    end
+
+    // Combinational logic for state transitions and outputs
+    always @(*) begin
+        tx_NEXT = tx_STATE;
+        tx_nxt_config.clk_div = tx_configt.clk_div;
+        tx_out_next = tx_out_reg;
+        tx_nxt_config.data = tx_configt.data;
+        tx_nxt_config.index_bit = tx_configt.index_bit;
+        done_tx = 0;
+
+        case (tx_STATE)
+            IDLE: begin
+                tx_out_next = 1;
+                tx_nxt_config.clk_div = 0;
+                tx_nxt_config.index_bit = 0;
+                if (start == 1) begin
+                    tx_nxt_config.data = tx_data_in;
+                    tx_NEXT = START;
+                end else begin
+                    tx_NEXT = IDLE;
+                end
+            end
+
+            START: begin
+                tx_out_next = 0;
+                if (tx_configt.clk_div < CLK_DIVIDE - 1) begin
+                    tx_nxt_config.clk_div = tx_configt.clk_div + 1'b1;
+                    tx_NEXT = START;
+                end else begin
+                    tx_nxt_config.clk_div = 0;
+                    tx_NEXT = DATA;
+                end
+            end
+
+            DATA: begin
+                tx_out_next = tx_configt.data[tx_configt.index_bit];
+                if (tx_configt.clk_div < CLK_DIVIDE - 1) begin
+                    tx_nxt_config.clk_div = tx_configt.clk_div + 1'b1;
+                    tx_NEXT = DATA;
+                end else begin
+                    tx_nxt_config.clk_div = 0;
+                    if (tx_configt.index_bit < 7) begin
+                        tx_nxt_config.index_bit = tx_configt.index_bit + 1'b1;
+                        tx_NEXT = DATA;
+                    end else begin
+                        tx_nxt_config.index_bit = 0;
+                        tx_NEXT = STOP;
+                    end
+                end
+            end
+
+            STOP: begin
+                tx_out_next = 1;
+                if (tx_configt.clk_div < CLK_DIVIDE - 1) begin
+                    tx_nxt_config.clk_div = tx_configt.clk_div + 1'b1;
+                    tx_NEXT = STOP;
+                end else begin
+                    tx_nxt_config.clk_div = 0;
+                    tx_NEXT = DONE;
+                end
+            end
+
+            DONE: begin
+                done_tx = 1;
+                tx_NEXT = IDLE;
+            end
+
+            default: tx_NEXT = IDLE;
+        endcase
+    end
+
 endmodule
+
