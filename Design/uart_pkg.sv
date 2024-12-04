@@ -1,9 +1,9 @@
 package uart_pkg;
 
-parameter int CLK_FREQ = 50000000; 
-parameter int BAUD_RATE = 19200;
+//parameter int CLK_FREQ = 50000000; 
+//parameter int BAUD_RATE = 19200;
 parameter int DATA_WIDTH = 8;
-parameter int CLOCK_DIVIDE = (CLK_FREQ / BAUD_RATE);
+//parameter int CLOCK_DIVIDE = (CLK_FREQ / BAUD_RATE);
 
 typedef enum bit [2:0] {
         IDLE   = 3'b000,  // Idle state
