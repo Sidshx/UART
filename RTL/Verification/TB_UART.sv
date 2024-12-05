@@ -34,15 +34,7 @@ module tb_uart;
         .CLK_FREQ(50000000), // 50 MHz
         .BAUD_RATE(19200)    // 19200 baud rate
     ) dut (
-        .clk(clk),
-        .rst(rst),
-        .rx(rx),
-        .tx(tx),
-        .tx_data_in(tx_data_in),
-        .rx_data_out(rx_data_out),
-        .start(start),
-        .done_tx(done_tx),
-        .tx_active(tx_active)
+			.*
     );
 
     // Clock generation
@@ -72,7 +64,7 @@ module tb_uart;
         rst = 0;
 
         // REPEAT TEST WITH RANDOM DATA
-        repeat (10) begin
+        repeat (500) begin
             // Generate random data
             test_data = rd.randomc();
             $display("Random value generated: %h", test_data);
